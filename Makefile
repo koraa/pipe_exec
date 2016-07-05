@@ -1,3 +1,4 @@
+CXXFLAGS ?= -O2
 CXXFLAGS += -std=c++11 -Wall -Wextra -Wpedantic
 
 .PHONY: clean test

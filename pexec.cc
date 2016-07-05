@@ -55,11 +55,19 @@ void xclose(int fd) {
 }
 
 size_t xread(int fd, void *buf, size_t count) {
-  return ckerrno(read(fd, buf, count), "read()");
+  auto r = read(fd, buf, count);
+  if (r == -1 && errno == EINTR)
+    return xread(fd, buf, count);
+  else
+    return ckerrno(r, "read()");
 }
 
 size_t xwrite(int fd, void *buf, size_t count) {
-  return ckerrno(write(fd, buf, count), "write()");
+  auto r = write(fd, buf, count);
+  if (r == -1 && errno == EINTR)
+    return xwrite(fd, buf, count);
+  else
+    return ckerrno(r, "write()");
 }
 
 void xfexecve(int fd, char *const argv[], char *const envp[]) {
