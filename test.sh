@@ -1,33 +1,23 @@
 #! /bin/bash
 
-set -e pipefail
+set -e
+set -o pipefail
+
+# Dealing with temp files
+tmpfiles=()
+cleanup() {
+  rm -rf "${tmpfiles[@]}"
+}
+trap cleanup EXIT
 
 fail() {
   echo >&2 "Test Failure:" $@
   (( x++ ))
 }
 
-runC() {
-  $CC $CFLAGS $LDFLAGS -xc - -o /dev/stdout | ./pexec "$@"
-}
-
-cd "$(dirname "$0")"
-test -n "$CC" || CC=cc
-test_failures=0
-
-source=$(cat <<EOF
-  #include <stdio.h>
-
-  int main(int argc, char **argv) {
-    printf("Hello World %i %s %s", argc, argv[1], argv[2]);
-    return 0;
-  }
-EOF
-)
-
 export DUMMY_VAR=42
 test "$(./pexec < "$(which echo)" This is it)" = "This is it" || fail "Execute static file"
-test "$(runC foo bar baz <<< "$source")" = "Hello World 4 foo bar" || fail "Execute fifo"
+test "$(cat "$(which echo)" | ./pexec foo bar baz)" = "foo bar baz" || fail "Execute fifo"
 test "$(./pexec < "$(which env)" | grep DUMMY_VAR)" = "DUMMY_VAR=42" || fail "Static File Env"
 test "$(cat "$(which env)" | ./pexec | grep DUMMY_VAR)" = "DUMMY_VAR=42" || fail "FIFO Env"
 
