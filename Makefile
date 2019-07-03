@@ -8,7 +8,7 @@ CXXFLAGS += -std=c++11 -Wall -Wextra -Wpedantic
 all: pexec
 
 test: pexec
-	bash ./test.sh
+	@bash ./test.sh
 
 %: %.c
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -o $@
