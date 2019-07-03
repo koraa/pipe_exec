@@ -1,7 +1,7 @@
 PREFIX ?= /usr/local
 
-CXXFLAGS ?= -O2
-CXXFLAGS += -std=c++11 -Wall -Wextra -Wpedantic
+CFLAGS ?= -O2
+CFLAGS += -std=c11 -Wall -Wextra -Wpedantic
 
 CPPFLAGS += -D_GNU_SOURCE
 
@@ -13,7 +13,7 @@ test: pexec
 	@bash ./test.sh
 
 %: %.c
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< -o $@
 
 install: pexec
 	cp -v ./pexec "$(PREFIX)/bin"
