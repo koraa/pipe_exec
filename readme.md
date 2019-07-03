@@ -17,19 +17,34 @@ pipe_exec will first try to execute the file in place; e.g.
 `pexec </bin/ls` would not load ls into memory first.
 
 
-## Examples
+## Usage
 
 ```sh
-cat `which date` | pexec -u
+$ cat `which date` | pexec -u
 Sun Jul  3 21:09:36 UTC 2016
 ```
 
-would be equivalent to
+## Installation
+
+Install the required packages:
+
+- build-essential
+
+And then compile the code:
 
 ```sh
-date -u
-Sun Jul  3 21:09:36 UTC 2016
+make
 ```
+
+To install copy the binaries to /usr/local/bin or execute this command
+which will perform the copy for you.
+
+```sh
+sudo make install
+```
+
+You can supply `$PREFIX` to use a different installation directory; the
+default prefix is `/usr/local.`
 
 ## License and Copyright
 
