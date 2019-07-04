@@ -1,2 +1,5 @@
 pexec
 *.sw*
+pexec_features.h
+features/*.exe
+features/*.txt
