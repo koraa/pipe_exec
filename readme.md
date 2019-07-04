@@ -1,12 +1,10 @@
 # pipe_exec
 
-Execute ELF binaries from pipes. This makes it possible to
+Execute ELF binaries from pipes & and terminals. This makes it possible to
 execute binaries that are not stored in a file system or for
-which the execute permission is not set.
-
-This makes it possible to run binaries directly from stdin;
-e.g. when piping gcc output or when downloading them via
-SSH.
+which the execute permission is not set and to run binaries
+directly from stdin; e.g. when piping gcc output or when
+downloading them via SSH.
 
 It works by allocating an in-memory file via the
 memfd_create(2) syscall, copying all data from the
