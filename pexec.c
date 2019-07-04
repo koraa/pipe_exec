@@ -9,6 +9,8 @@
 #include <sys/mman.h>
 #include <linux/memfd.h>
 
+extern char **environ;
+
 ssize_t cksys(const char *msg, ssize_t r) {
   if (r >= 0) return r;
   fprintf(stderr, "Fatal Error in %s: %s\n", msg, strerror(errno));
@@ -76,14 +78,14 @@ int main(int argc __attribute__((unused)), char *argv[]) {
   // Try executing stdin in place; if this works, execution
   // of this program will terminate, so we can assume that some
   // error occurred if the program keeps going
-  fexecve(0, argv, __environ);
+  fexecve(0, argv, environ);
 
   // OK; it's probably a file; copy into a anonymous, memory backed
   // temp file, then it should work
   const ssize_t f = cksys("memfd_create()", syscall(SYS_memfd_create, "Virtual File", MFD_CLOEXEC));
   transfer(0, f);
 
-  cksys("fexecve()", fexecve(f, argv, __environ));
+  cksys("fexecve()", fexecve(f, argv, environ));
   fprintf(stderr, "Fatal Error in fexecve(): Should have terminated the process");
   return 1;
 }
