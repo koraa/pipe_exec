@@ -26,7 +26,7 @@ void safe_ftruncate(int fd, off_t len) {
   }
 }
 
-void transfer_userspace(int fdin, int fdout) {
+void transfer_mmap(int fdin, int fdout) {
   size_t off=0, avail=1024*1024*2; // 2MB
   // Allocate space in the memfd and map it into our userspace memory
   safe_ftruncate(fdout, avail); // We know fdout is a memfd
@@ -57,19 +57,18 @@ void transfer_userspace(int fdin, int fdout) {
   // munmap – no need; fexecve unmaps automatically
 }
 
-void transfer(int fdin, int fdout) {
-  for (ssize_t r=1; r > 0; /* pass */) {
+// Transfer data from one fd into the other using splice
+// Returns 0 if the data was transferred successfully, -1
+// if the underlying file type is not supported and exits
+// on any other error.
+int transfer_splice(int fdin, int fdout) {
+  for (size_t cnt=0; true; cnt++) {
     // Transferring 2GB at a time; this should be portable for 32bit
     // systems (and linux complains at the max val for uint64_t)
-    r = splice(fdin, NULL, fdout, NULL, ((size_t)1)<<31, 0);
+    ssize_t r = splice(fdin, NULL, fdout, NULL, ((size_t)1)<<31, 0);
+    if (r == 0) return 0; // We're done
     if (r < 0 && errno == EINTR) continue;
-    if (r < 0 && errno == EINVAL) {
-      // This might be a tty? Ttys are not supported by splice(2); fall back
-      // to using a read()/mmap() based implementation
-      // TODO: Figure out a way how to test this
-      transfer_userspace(fdin, fdout);
-      return;
-    }
+    if (r < 0 && errno == EINVAL && cnt == 0) return -1; // File not supported
     cksys("splice()", r);
   }
 }
@@ -83,7 +82,8 @@ int main(int argc __attribute__((unused)), char *argv[]) {
   // OK; it's probably a file; copy into a anonymous, memory backed
   // temp file, then it should work
   const ssize_t f = cksys("memfd_create()", syscall(SYS_memfd_create, "Virtual File", MFD_CLOEXEC));
-  transfer(0, f);
+  if (transfer_splice(0, f) < 0)
+    transfer_mmap(0, f);
 
   cksys("fexecve()", fexecve(f, argv, environ));
   fprintf(stderr, "Fatal Error in fexecve(): Should have terminated the process");
