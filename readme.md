@@ -44,9 +44,13 @@ sudo make install
 You can supply `$PREFIX` to use a different installation directory; the
 default prefix is `/usr/local.`
 
+## Maintenance log
+
+2024-06-26 – Everything working as it should :)
+
 ## License and Copyright
 
-Copyright (C) 2016-2019 by Karolin Varner
+Copyright (C) 2016-2024 by Karolin Varner
 
 MIT License
 
