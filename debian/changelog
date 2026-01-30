@@ -1,0 +1,7 @@
+pexec (1.0-1) UNRELEASED; urgency=medium
+
+  * Initial release. (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * debian/changelog
+  * debian/changelog
+
+ -- Luis-HCarvalho <luishenriquecm12@gmail.com>  Thu, 29 Jan 2026 03:13:25 +0000

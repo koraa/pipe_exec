@@ -1,0 +1,21 @@
+Source: pexec
+Section: utils
+Priority: optional
+Maintainer: "Luis Carvalho" <luishenriquecm12@gmail.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.7.2
+Homepage: https://github.com/koraa/pipe_exec
+
+Package: pexec
+Architecture: any
+Multi-Arch: foreign
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: Execute binaries from pipes, stdin and ttys
+ Execute ELF binaries from pipes & and terminals. This makes it possible to 
+ execute binaries that are not stored in a file system or for which the execute
+ permission is not set and to run binaries directly from stdin; e.g. when 
+ piping gcc output or when downloading them via SSH.

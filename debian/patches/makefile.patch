@@ -1,0 +1,26 @@
+diff -ura pipe_exec-master.orig/Makefile pipe_exec-master/Makefile
+--- pipe_exec-master.orig/Makefile	2024-06-26 06:21:27.000000000 -0300
++++ pipe_exec-master/Makefile	2026-01-28 14:08:53.543670876 -0300
+@@ -1,4 +1,6 @@
+ PREFIX ?= /usr/local
++DESTDIR := 
++BIN := pexec
+ 
+ CFLAGS ?= -O2
+ CFLAGS += -std=c11 -Wall -Wextra -Wpedantic
+@@ -12,11 +14,11 @@
+ test: pexec
+ 	@bash ./test.sh
+ 
+-%: %.c
++$(BIN): pexec.c
+ 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< -o $@
+ 
+ install: pexec
+-	cp -v ./pexec "$(PREFIX)/bin"
++	install -Dm755 $(BIN) $(DESTDIR)$(PREFIX)/bin/$(BIN)
+ 
+ clean:
+-	rm pexec -vf
++	rm pexec -vf
+\ No newline at end of file
