@@ -1,4 +1,6 @@
 PREFIX ?= /usr/local
+DESTDIR := 
+BIN := pexec
 
 CFLAGS ?= -O2
 CFLAGS += -std=c11 -Wall -Wextra -Wpedantic
@@ -12,11 +14,11 @@ all: pexec
 test: pexec
 	@bash ./test.sh
 
-%: %.c
+$(BIN): pexec.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< -o $@
 
 install: pexec
-	cp -v ./pexec "$(PREFIX)/bin"
+	install -Dm755 $(BIN) $(DESTDIR)/$(PREFIX)/bin/$(BIN)
 
 clean:
 	rm pexec -vf
