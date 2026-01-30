@@ -46,11 +46,21 @@ default prefix is `/usr/local.`
 
 ## Maintenance log
 
-2024-06-26 – Everything working as it should :)
+This project is stable, very simple software. As such, frequent development is not necessary for stability.
+I check the health of this project occasionally; in case of doubt you can always check in in the issues.
+
+- 2024-06-26 – Everything working as it should :)
+- 2026-01-30 – Merged PR [#6](https://github.com/koraa/pipe_exec/pull/6) to use install command for installation. Everything working as it should.
+
+## Help Wanted
+
+- Create a Nix flake for us
+- Rewrite in Rust?
+- Package manager support (esp. AUR, Nixpkgs)
 
 ## License and Copyright
 
-Copyright (C) 2016-2024 by Karolin Varner
+Copyright (C) 2016-2026 by Karolin Varner
 
 MIT License
 
