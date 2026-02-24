@@ -51,7 +51,7 @@ I check the health of this project occasionally; in case of doubt you can always
 
 - 2024-06-26 – Everything working as it should :)
 - 2026-01-30 – Merged PR [#6](https://github.com/koraa/pipe_exec/pull/6) to use install command for installation. Everything working as it should.
-- 2026-02-24 – Merged PR [#7](https://github.com/koraa/pipe_exec/pull/7) and [#8](https://github.com/koraa/pipe_exec/issues/8)
+- 2026-02-24 – Merged PR [#7](https://github.com/koraa/pipe_exec/pull/7) and [#8](https://github.com/koraa/pipe_exec/issues/8); renamed default branch to main.
 
 ## Help Wanted
 
